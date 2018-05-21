@@ -4,6 +4,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -30,17 +31,34 @@ public class EncryptionDot {
         kf = KeyFactory.getInstance("RSA");
         publicKey=getRsaPublikKey();
         privateKey=getRsaPrivateKey();
-        cipherEncrypt = Cipher.getInstance("RSA/ECB/NoPadding");
+        cipherEncrypt = Cipher.getInstance("RSA");
         cipherEncrypt.init(Cipher.ENCRYPT_MODE, publicKey);
-        cipherDecrypt=Cipher.getInstance("RSA/ECB/NoPadding");
+        cipherDecrypt=Cipher.getInstance("RSA");
         cipherDecrypt.init(Cipher.DECRYPT_MODE,privateKey);
+        System.out.println(modulusBase64.length());
     }
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
         EncryptionDot main=new EncryptionDot();
         String text="this is my text";
         byte[] encoded=main.encode(text.getBytes());
         byte[] decoded=main.decode(encoded);
         System.out.println(new String(decoded));
+        System.out.println();
+        System.out.println();
+        main.tryDecodeNet();
+    }
+
+    public void tryDecodeNet() throws BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+        String encoded="AH2YoaJWrxNz6PRYEz4PbIvjZ6WHk6xvWipOmhFmuhozGY1v4XfL8ByvwcD88SK66yqBWZkrQWF6XlityBU/PP0=";
+        byte[] encodedBytes=Base64.getDecoder().decode(encoded);
+        System.out.println("encoded length:"+encodedBytes.length);
+        byte[] newArr=new byte[encodedBytes.length-1];
+        for(int i=0;i<newArr.length;i++){
+            newArr[i]=encodedBytes[i+1];
+        }
+        byte[] decoded=decode(newArr);
+        System.out.println("decoded length:"+decoded.length);
+        System.out.println(new String(decoded,"UTF-8"));
     }
 
     public byte[] encode(byte[] data) throws BadPaddingException, IllegalBlockSizeException {
