@@ -37,8 +37,14 @@ public class EncrypTIon {
         byte[] publicKey = pair.getPublic().getEncoded();
         RSAPublicKey rsaPublicKey= (RSAPublicKey) pair.getPublic();
         RSAPrivateKey rsaPrivateKey= (RSAPrivateKey) pair.getPrivate();
-        System.out.println("---");
+        System.out.println("---Modulus");
         System.out.println(encode(rsaPublicKey.getModulus()));
+        System.out.println("---Public Exponent");
+        System.out.println(encode(rsaPublicKey.getPublicExponent()));
+        System.out.println("---Private Key");
+        System.out.println(Base64.getEncoder().encodeToString(rsaPrivateKey.getEncoded()));
+
+        System.out.println();
         System.out.println(encode(rsaPublicKey.getModulus()).length());
         System.out.println(new String(Base64.getEncoder().encode(rsaPublicKey.getEncoded())).length());
         System.out.println("---");
