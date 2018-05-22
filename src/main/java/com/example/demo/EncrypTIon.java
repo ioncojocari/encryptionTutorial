@@ -31,7 +31,7 @@ public class EncrypTIon {
 
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, InvalidKeySpecException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-        keyGen.initialize(512);
+        keyGen.initialize(2048);
         KeyPair pair=keyGen.genKeyPair();
        // toByte(new BigInteger("12"));
         byte[] publicKey = pair.getPublic().getEncoded();
